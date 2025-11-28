@@ -32,10 +32,11 @@ public class MurderGameModeMixin {
             at = @At("HEAD"),
             cancellable = true)
     private void tc$moneyGlitch(ServerWorld serverWorld, GameWorldComponent gameWorldComponent, CallbackInfo ci) {
-        for (ServerPlayerEntity player : serverWorld.getPlayers()) {
-            PlayerShopComponent.KEY.get(player).setBalance(500);
-        }
+
         if (TmmConstruct.DEV) {
+            for (ServerPlayerEntity player : serverWorld.getPlayers()) {
+                PlayerShopComponent.KEY.get(player).setBalance(500);
+            }
             ci.cancel();
         }
     }
