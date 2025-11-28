@@ -34,7 +34,7 @@ public class TmmConstruct implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
+// items.tmm-construct.thetiscope
     }
 
 
