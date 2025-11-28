@@ -30,7 +30,7 @@ public class TmmConstruct implements ModInitializer {
 
     public static final SoundEvent MUSEUM = Registry.register(Registries.SOUND_EVENT, id("et8"), SoundEvent.of(id("et8")));
 
-    public static final boolean DEV = false;
+    public static final boolean DEV = true;
 
     @Override
     public void onInitialize() {
