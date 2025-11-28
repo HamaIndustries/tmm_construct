@@ -27,20 +27,16 @@ public class MurderGameModeMixin {
         }
     }
 
-    @Inject(method = "tickServerGameLoop", at = @At("HEAD"), cancellable = true, remap = true)
-    private void tc$endlessDev(CallbackInfo ci) {
-        if (TmmConstruct.DEV) {
-            ci.cancel();
-        }
-    }
-
     @Inject(
             method = "tickServerGameLoop",
-            at = @At("HEAD")
-    )
+            at = @At("HEAD"),
+            cancellable = true)
     private void tc$moneyGlitch(ServerWorld serverWorld, GameWorldComponent gameWorldComponent, CallbackInfo ci) {
         for (ServerPlayerEntity player : serverWorld.getPlayers()) {
-            PlayerShopComponent.KEY.get(player).addToBalance(100);
+            PlayerShopComponent.KEY.get(player).setBalance(500);
+        }
+        if (TmmConstruct.DEV) {
+            ci.cancel();
         }
     }
 }

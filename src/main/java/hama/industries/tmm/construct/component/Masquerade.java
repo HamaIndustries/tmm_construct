@@ -62,7 +62,7 @@ public class Masquerade implements ServerTickingComponent {
 //            masque.setMasque(masques.get(i));
 //            masque.setPosition(dancers.get(i).getPos());
 //        }
-        dancers.get(0).getWorld().playSound(null, dancers.get(0).getBlockPos().up(100), TmmConstruct.MUSEUM, SoundCategory.AMBIENT, 100, 1);
+        dancers.get(0).getWorld().playSound(null, dancers.get(0).getBlockPos().up(10), TmmConstruct.MUSEUM, SoundCategory.AMBIENT, 1000, 1);
         return true;
     }
 
