@@ -1,21 +1,23 @@
 package hama.industries.tmm.construct.component;
 
 import hama.industries.tmm.construct.TmmConstruct;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class Masque implements AutoSyncedComponent {
     private UUID masque = null;
-    private Vec3 position = null;
-    private final Player player;
+    private Vec3d position = null;
+    private final PlayerEntity player;
 
-    public Masque(Player p) {
+    public Masque(PlayerEntity p) {
         this.player = p;
     }
 
@@ -29,27 +31,41 @@ public class Masque implements AutoSyncedComponent {
         TmmConstruct.Keys.MASQUE.sync(player);
     }
 
-    public void setPosition(Vec3 p) {
+    public void setPosition(Vec3d p) {
         this.position = p;
     }
 
     public void reset() {
         setMasque(null);
         if (this.position != null) {
-            player.setPos(this.position);
+            player.setPosition(this.position);
             this.position = null;
         }
     }
 
     @Override
-    public void readFromNbt(CompoundTag compoundTag, HolderLookup.Provider provider) {
-        this.masque = compoundTag.hasUUID("tmm_masque") ? compoundTag.getUUID("tmm_masque") : null;
+    public void readFromNbt(NbtCompound nbtCompound, RegistryWrapper.WrapperLookup wrapperLookup) {
+        this.masque = nbtCompound.containsUuid("tmm_masque") ? nbtCompound.getUuid("tmm_masque") : null;
+
     }
 
     @Override
-    public void writeToNbt(CompoundTag compoundTag, HolderLookup.Provider provider) {
+    public void writeToNbt(NbtCompound nbtCompound, RegistryWrapper.WrapperLookup wrapperLookup) {
         if (masque != null) {
-            compoundTag.putUUID("tmm_masque", masque);
+            nbtCompound.putUuid("tmm_masque", masque);
         }
     }
+
+    @Override
+    public void applySyncPacket(RegistryByteBuf buf) {
+        var prev = masque;
+        AutoSyncedComponent.super.applySyncPacket(buf);
+//        if (masque != null && masque != prev) {
+//            cb.accept(this.player);
+//        }
+    }
+
+    // sorry guys
+    public static Consumer<PlayerEntity> cb = p -> {
+    };
 }

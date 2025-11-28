@@ -1,21 +1,21 @@
 package hama.industries.tmm.construct.component;
 
 import hama.industries.tmm.construct.TmmConstruct;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundEvents;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 public class Shutter implements AutoSyncedComponent, ServerTickingComponent {
     private int ticks = 0;
     private boolean closed = false;
-    private final Player player;
+    private final PlayerEntity player;
 
-    public Shutter(Player p) {
+    public Shutter(PlayerEntity p) {
         this.player = p;
     }
 
@@ -33,27 +33,27 @@ public class Shutter implements AutoSyncedComponent, ServerTickingComponent {
     }
 
     @Override
-    public void applySyncPacket(RegistryFriendlyByteBuf buf) {
+    public void applySyncPacket(RegistryByteBuf buf) {
         boolean old = closed;
         AutoSyncedComponent.super.applySyncPacket(buf);
         if (old != closed) {
-            this.player.playSound(SoundEvents.PISTON_CONTRACT, 0.5f, 1.5f);
+            this.player.playSound(SoundEvents.BLOCK_PISTON_CONTRACT, 0.5f, 1.5f);
         }
     }
 
     @Override
-    public boolean shouldSyncWith(ServerPlayer player) {
+    public boolean shouldSyncWith(ServerPlayerEntity player) {
         return player.equals(this.player);
     }
 
     @Override
-    public void readFromNbt(CompoundTag compoundTag, HolderLookup.Provider provider) {
-        closed = compoundTag.getBoolean("tmm_shutter");
+    public void readFromNbt(NbtCompound nbtCompound, RegistryWrapper.WrapperLookup wrapperLookup) {
+        closed = nbtCompound.getBoolean("tmm_shutter");
     }
 
     @Override
-    public void writeToNbt(CompoundTag compoundTag, HolderLookup.Provider provider) {
-        compoundTag.putBoolean("tmm_shutter", closed);
+    public void writeToNbt(NbtCompound nbtCompound, RegistryWrapper.WrapperLookup wrapperLookup) {
+        nbtCompound.putBoolean("tmm_shutter", closed);
     }
 
     @Override

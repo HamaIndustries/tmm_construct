@@ -1,12 +1,13 @@
 package hama.industries.tmm.construct.component;
 
 import hama.industries.tmm.construct.TmmConstruct;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 import java.util.ArrayList;
@@ -17,21 +18,22 @@ import java.util.Map;
 import java.util.UUID;
 
 public class Masquerade implements ServerTickingComponent {
-    private static final int TOTAL_TICKS = 20 * 10;
+    private static final int TOTAL_TICKS = 20 * 20;
     private int ticks = 0;
     private boolean begin = false;
     private boolean end = false;
-    private Level level;
-    private Map<UUID, Vec3> positions = new HashMap<>();
+    private World level;
+    private Map<UUID, Vec3d> positions = new HashMap<>();
 
-    public Masquerade(Level level) {
+    public Masquerade(World level) {
         this.level = level;
     }
 
     public boolean waltz() {
+        if (ticks != 0) return false;
         begin = true;
         ticks = TOTAL_TICKS;
-        for (var p : level.players()) {
+        for (var p : level.getPlayers()) {
             TmmConstruct.Keys.SHUTTER.get(p).shut(40);
         }
         return true;
@@ -39,21 +41,33 @@ public class Masquerade implements ServerTickingComponent {
 
     private boolean prosopagnosticate() {
         if (ticks >= TOTAL_TICKS - 25) return false;
-        List<? extends Player> dancers = level.players();
-        List<UUID> masques = new ArrayList<>(dancers.stream().map(Entity::getUUID).toList());
-        Collections.shuffle(masques);
-        List<Vec3> pos = new ArrayList<>(dancers.stream().map(Entity::position).toList());
-        Collections.shuffle(pos);
+        List<? extends PlayerEntity> dancers = level.getPlayers();
+        List<PlayerEntity> others = new ArrayList<>(dancers);
+        Collections.shuffle(others);
+        List<Vec3d> newPos = others.stream().map(Entity::getPos).toList();
+
         for (int i = 0; i < dancers.size(); i++) {
             Masque masque = TmmConstruct.Keys.MASQUE.get(dancers.get(i));
-            masque.setMasque(masques.get(i));
-            masque.setPosition(dancers.get(i).position());
+            masque.setMasque(others.get(i).getUuid());
+            masque.setPosition(dancers.get(i).getPos());
+            dancers.get(i).setPosition(newPos.get(i));
         }
+
+//        List<UUID> masques = new ArrayList<>(dancers.stream().map(Entity::getUuid).toList());
+//        Collections.shuffle(masques);
+//        List<Vec3d> pos = new ArrayList<>(dancers.stream().map(d -> d.getPos()).toList());
+//        Collections.shuffle(pos);
+//        for (int i = 0; i < dancers.size(); i++) {
+//            Masque masque = TmmConstruct.Keys.MASQUE.get(dancers.get(i));
+//            masque.setMasque(masques.get(i));
+//            masque.setPosition(dancers.get(i).getPos());
+//        }
+        dancers.get(0).getWorld().playSound(null, dancers.get(0).getBlockPos().up(100), TmmConstruct.MUSEUM, SoundCategory.AMBIENT, 100, 1);
         return true;
     }
 
     private void conclude() {
-        for (var dancer : level.players()) {
+        for (var dancer : level.getPlayers()) {
             TmmConstruct.Keys.MASQUE.get(dancer).reset();
         }
     }
@@ -66,7 +80,7 @@ public class Masquerade implements ServerTickingComponent {
                 begin = !prosopagnosticate();
             } else if (ticks < 20 && !end) {
                 end = true;
-                for (var p : level.players()) {
+                for (var p : level.getPlayers()) {
                     TmmConstruct.Keys.SHUTTER.get(p).shut(40);
                 }
             } else if (ticks == 0) {
@@ -78,13 +92,14 @@ public class Masquerade implements ServerTickingComponent {
         }
     }
 
+
     @Override
-    public void readFromNbt(CompoundTag compoundTag, HolderLookup.Provider provider) {
+    public void readFromNbt(NbtCompound nbtCompound, RegistryWrapper.WrapperLookup wrapperLookup) {
 
     }
 
     @Override
-    public void writeToNbt(CompoundTag compoundTag, HolderLookup.Provider provider) {
+    public void writeToNbt(NbtCompound nbtCompound, RegistryWrapper.WrapperLookup wrapperLookup) {
 
     }
 }

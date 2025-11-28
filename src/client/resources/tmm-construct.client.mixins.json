@@ -3,6 +3,8 @@
   "package": "hama.industries.tmm.construct.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "Clair",
+    "NomDeGuerre"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -3,6 +3,9 @@
   "package": "hama.industries.tmm.construct.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "compat.GameConstantsMixin",
+    "compat.GameFunctionsMixin",
+    "compat.MurderGameModeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
