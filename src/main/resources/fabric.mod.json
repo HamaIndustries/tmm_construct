@@ -1,44 +1,53 @@
 {
-	"schemaVersion": 1,
-	"id": "tmm-construct",
-	"version": "${version}",
-	"name": "tmm construct",
-	"description": "This is an example description! Tell everyone what your mod is about!",
-	"authors": [
-		"Me!"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/tmm-construct/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"hama.industries.tmm.construct.TmmConstruct"
-		],
-		"client": [
-			"hama.industries.tmm.construct.TmmConstructClient"
-		],
-		"fabric-datagen": [
-			"hama.industries.tmm.construct.TmmConstructDataGenerator"
-		]
-	},
-	"mixins": [
-		"tmm-construct.mixins.json",
-		{
-			"config": "tmm-construct.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.18.1",
-		"minecraft": "~1.21.1",
-		"java": ">=21",
-		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
-	}
+  "schemaVersion": 1,
+  "id": "tmm-construct",
+  "version": "${version}",
+  "name": "tmm construct",
+  "description": "This is not an example description! Tell nobody what you have seen here!",
+  "authors": [
+    "You!"
+  ],
+  "contact": {
+    "homepage": "https://google.com/"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/tmm-construct/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "hama.industries.tmm.construct.TmmConstruct"
+    ],
+    "client": [
+      "hama.industries.tmm.construct.TmmConstructClient"
+    ],
+    "fabric-datagen": [
+      "hama.industries.tmm.construct.TmmConstructDataGenerator"
+    ],
+    "cardinal-components": [
+      "hama.industries.tmm.construct.TmmConstruct"
+    ]
+  },
+  "mixins": [
+    "tmm-construct.mixins.json",
+    {
+      "config": "tmm-construct.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.1",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  },
+  "custom": {
+    "cardinal-components": [
+      "tmm-construct:masque",
+      "tmm-construct:masquerade",
+      "tmm-construct:shutter"
+    ]
+  }
 }

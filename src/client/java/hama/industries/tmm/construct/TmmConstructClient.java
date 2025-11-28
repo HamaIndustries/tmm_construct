@@ -1,5 +1,6 @@
 package hama.industries.tmm.construct;
 
+import dev.doctor4t.trainmurdermystery.util.ShopEntry;
 import net.fabricmc.api.ClientModInitializer;
 
 public class TmmConstructClient implements ClientModInitializer {
