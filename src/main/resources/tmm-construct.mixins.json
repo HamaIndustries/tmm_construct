@@ -5,7 +5,10 @@
   "mixins": [
     "compat.GameConstantsMixin",
     "compat.GameFunctionsMixin",
-    "compat.MurderGameModeMixin"
+    "compat.MurderGameModeMixin",
+    "compat.hater_laser.ArgumentLaser",
+    "compat.hater_laser.CommandLaser",
+    "compat.hater_laser.UltraHaterLaser"
   ],
   "injectors": {
     "defaultRequire": 1

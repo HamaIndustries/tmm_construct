@@ -12,10 +12,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 public class Masquerade implements ServerTickingComponent {
     private static final int TOTAL_TICKS = 20 * 20;
@@ -23,7 +20,6 @@ public class Masquerade implements ServerTickingComponent {
     private boolean begin = false;
     private boolean end = false;
     private World level;
-    private Map<UUID, Vec3d> positions = new HashMap<>();
 
     public Masquerade(World level) {
         this.level = level;

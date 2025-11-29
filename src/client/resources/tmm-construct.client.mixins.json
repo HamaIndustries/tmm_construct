@@ -4,9 +4,13 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "Clair",
+    "EarsCompat",
     "NomDeGuerre"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "client_hater_laser.ClientLaser"
+  ]
 }

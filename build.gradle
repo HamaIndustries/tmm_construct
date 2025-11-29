@@ -35,6 +35,12 @@ repositories {
     maven {
         url "https://maven.maxhenkel.de/repository/public"
     }
+    maven {
+        url "https://repo.unascribed.com"
+        content {
+            includeGroup "com.unascribed"
+        }
+    }
 }
 
 dependencies {
@@ -62,6 +68,8 @@ dependencies {
 
     modImplementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
     modImplementation "maven.modrinth:simple-voice-chat:fabric-${voicechat_version}"
+    modImplementation "maven.modrinth:ears:1.4.7+fabric-1.21"
+//    modImplementation "com.unascribed:ears-api:1.4.5"
 }
 
 loom {
